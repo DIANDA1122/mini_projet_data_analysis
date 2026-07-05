@@ -1,0 +1,26 @@
+stages:
+  preprocess:
+    cmd: python preprocess.py
+    deps:
+    - preprocess.py
+    - tweets_suspect (2).csv
+    outs:
+    - tweets_suspect_preprocessed.csv
+  train:
+    cmd: python train.py
+    deps:
+    - train.py
+    - tweets_suspect_preprocessed.csv
+    outs:
+    - model.pkl
+    - tfidf_vectorizer.pkl
+  evaluate:
+    cmd: python evaluate.py
+    deps:
+    - evaluate.py
+    - model.pkl
+    - tfidf_vectorizer.pkl
+    - tweets_suspect_preprocessed.csv
+    metrics:
+    - metrics.json:
+        cache: false
